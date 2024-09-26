@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/SsttekAcademyHomeWork.props" />
+</Project>
