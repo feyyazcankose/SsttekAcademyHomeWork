@@ -1,6 +1,6 @@
-using SsttekAcademyHomeWork.Models.Repositories;
+using SsttekAcademyHomeWork.Models.Repositories.Products;
 
-namespace SsttekAcademyHomeWork.Models.Services
+namespace SsttekAcademyHomeWork.Models.Services.Products
 {
     public class ProductService: IProductService
     {

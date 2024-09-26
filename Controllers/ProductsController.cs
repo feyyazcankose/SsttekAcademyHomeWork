@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SsttekAcademyHomeWork.Models.Repositories;
-using SsttekAcademyHomeWork.Models.Services;
+using SsttekAcademyHomeWork.Models.Repositories.Products;
+using SsttekAcademyHomeWork.Models.Services.Products;
 
 namespace SsttekAcademyHomeWork.Controllers
 {

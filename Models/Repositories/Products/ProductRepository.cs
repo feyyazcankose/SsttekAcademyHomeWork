@@ -1,4 +1,4 @@
-namespace SsttekAcademyHomeWork.Models.Repositories
+namespace SsttekAcademyHomeWork.Models.Repositories.Products
 {
     public class ProductRepository:IProductRepository
     {
