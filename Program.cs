@@ -1,5 +1,7 @@
 using SsttekAcademyHomeWork.Models.Repositories.Products;
 using SsttekAcademyHomeWork.Models.Services.Products;
+using SsttekAcademyHomeWork.Models.Repositories.Books;
+using SsttekAcademyHomeWork.Models.Services.Books;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProductRepository, ProductRepository>(); // ProductRepository için DI kaydı
 builder.Services.AddScoped<IProductService, ProductService>(); // ProductService için DI kaydı
 
+builder.Services.AddScoped<IBookRepository, BookRepository>(); // BookRepository için DI kaydı
+builder.Services.AddScoped<IBookService, BookService>(); // BookService için DI kaydı
 
 var app = builder.Build();
 
