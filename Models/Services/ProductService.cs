@@ -4,7 +4,7 @@ namespace SsttekAcademyHomeWork.Models.Services
 {
     public class ProductService
     {
-        private readonly ProductRepository productRepository = new ProductRepository();
+        private readonly IProductRepository productRepository = new ProductRepository();
 
         public List<Product> GetProducts()
         {

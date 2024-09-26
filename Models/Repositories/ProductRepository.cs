@@ -1,6 +1,6 @@
 namespace SsttekAcademyHomeWork.Models.Repositories
 {
-    public class ProductRepository
+    public class ProductRepository:IProductRepository
     {
         private static List<Product> products = new();
 
