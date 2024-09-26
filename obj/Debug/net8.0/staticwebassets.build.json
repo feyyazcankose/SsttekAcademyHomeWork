@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ne4j0Du9kPFksj5NYdfwWthRpl9ET521cKLY2IqWkXU=",
+  "Hash": "BxZ94R0KuqgWmFcRpAyd5jc/MnRp77+LDDS0lhpf4yg=",
   "Source": "SsttekAcademyHomeWork",
   "BasePath": "_content/SsttekAcademyHomeWork",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/images/logo.png",
+      "SourceId": "SsttekAcademyHomeWork",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/",
+      "BasePath": "_content/SsttekAcademyHomeWork",
+      "RelativePath": "images/logo.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/logo.png"
     },
     {
       "Identity": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/js/site.js",

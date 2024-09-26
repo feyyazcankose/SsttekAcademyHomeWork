@@ -6,5 +6,7 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
     public interface IBookService
     {
         List<Book> GetBooks();
+
+        Book GetBook(int id);
     }
 }

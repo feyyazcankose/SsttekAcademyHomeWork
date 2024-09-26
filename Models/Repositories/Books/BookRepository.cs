@@ -1,21 +1,32 @@
 namespace SsttekAcademyHomeWork.Models.Repositories.Books
 {
-    public class BookRepository: IBookRepository
+    public class BookRepository : IBookRepository
     {
         private static List<Book> books = new();
 
         static BookRepository()
         {
-            books.Add(new Book() { Id = 1, Title = "Book 1", Author = "Author 1", PublicationYear = 2000, ISBN = "ISBN 1", Genre = "Genre 1", Publisher = "Publisher 1", PageCount = 100, Language = "Language 1", Summary = "Summary 1", AvailableCopies = 10, ImageUrl = "ImageUrl 1" });
-            books.Add(new Book() { Id = 2, Title = "Book 2", Author = "Author 2", PublicationYear = 2001, ISBN = "ISBN 2", Genre = "Genre 2", Publisher = "Publisher 2", PageCount = 200, Language = "Language 2", Summary = "Summary 2", AvailableCopies = 20, ImageUrl = "ImageUrl 2" });
-            books.Add(new Book() { Id = 3, Title = "Book 3", Author = "Author 3", PublicationYear = 2002, ISBN = "ISBN 3", Genre = "Genre 3", Publisher = "Publisher 3", PageCount = 300, Language = "Language 3", Summary = "Summary 3", AvailableCopies = 30, ImageUrl = "ImageUrl 3" });
-            books.Add(new Book() { Id = 4, Title = "Book 4", Author = "Author 4", PublicationYear = 2003, ISBN = "ISBN 4", Genre = "Genre 4", Publisher = "Publisher 4", PageCount = 400, Language = "Language 4", Summary = "Summary 4", AvailableCopies = 40, ImageUrl = "ImageUrl 4" });
-            books.Add(new Book() { Id = 5, Title = "Book 5", Author = "Author 5", PublicationYear = 2004, ISBN = "ISBN 5", Genre = "Genre 5", Publisher = "Publisher 5", PageCount = 500, Language = "Language 5", Summary = "Summary 5", AvailableCopies = 50, ImageUrl = "ImageUrl 5" });
+            books.Add(new Book(){ Id = 1, Title = "To Kill a Mockingbird", Author = "Harper Lee", PublicationYear = 1960, ISBN = "978-0060935467", Genre = "Fiction", Publisher = "J.B. Lippincott & Co.", PageCount = 324, Language = "English", Summary = "A novel about the serious issues of rape and racial inequality, told through the eyes of a young girl.", AvailableCopies = 5, ImageUrl = "https://example.com/tokillamockingbird.jpg" });
+            books.Add(new Book(){ Id = 2, Title = "1984", Author = "George Orwell", PublicationYear = 1949, ISBN = "978-0451524935", Genre = "Dystopian", Publisher = "Secker & Warburg", PageCount = 328, Language = "English", Summary = "A dystopian novel that explores the dangers of totalitarianism and extreme political ideology.", AvailableCopies = 7, ImageUrl = "https://example.com/1984.jpg" });
+            books.Add(new Book(){ Id = 3, Title = "Pride and Prejudice", Author = "Jane Austen", PublicationYear = 1813, ISBN = "978-1503290563", Genre = "Classic", Publisher = "T. Egerton, Whitehall", PageCount = 279, Language = "English", Summary = "A romantic novel that critiques the British landed gentry at the end of the 18th century.", AvailableCopies = 3, ImageUrl = "https://example.com/prideandprejudice.jpg" });
+            books.Add(new Book(){ Id = 4, Title = "The Great Gatsby", Author = "F. Scott Fitzgerald", PublicationYear = 1925, ISBN = "978-0743273565", Genre = "Classic", Publisher = "Charles Scribner's Sons", PageCount = 180, Language = "English", Summary = "A novel about the American dream and the disillusionment of post-war America.", AvailableCopies = 4, ImageUrl = "https://example.com/thegreatgatsby.jpg" });
+            books.Add(new Book(){ Id = 5, Title = "Moby Dick", Author = "Herman Melville", PublicationYear = 1851, ISBN = "978-1503280786", Genre = "Adventure", Publisher = "Harper & Brothers", PageCount = 635, Language = "English", Summary = "A detailed and symbolic narrative of Captain Ahab's obsessive quest to kill the white whale, Moby Dick.", AvailableCopies = 6, ImageUrl = "https://example.com/mobydick.jpg" });
         }
+
 
         public List<Book> GetBooks()
         {
             return books;
+        }
+
+        public Book GetBook(int id)
+        {
+            var findBook = books.FirstOrDefault(b => b.Id == id);
+            if (findBook == null)
+            {
+                throw new Exception("Book not found");
+            }
+            return findBook;
         }
     }
 }

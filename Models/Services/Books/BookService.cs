@@ -15,5 +15,10 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
         {
             return _bookRepository.GetBooks();
         }
+
+        public Book GetBook(int id)
+        {
+            return _bookRepository.GetBook(id);
+        }
     }
 }
