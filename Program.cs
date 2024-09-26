@@ -1,8 +1,13 @@
+using SsttekAcademyHomeWork.Models.Repositories;
+using SsttekAcademyHomeWork.Models.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<IProductRepository, ProductRepository>(); // ProductRepository için DI kaydı
+builder.Services.AddScoped<IProductService, ProductService>(); // ProductService için DI kaydı
 
 
 var app = builder.Build();

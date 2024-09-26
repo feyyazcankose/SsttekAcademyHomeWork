@@ -10,12 +10,16 @@ namespace SsttekAcademyHomeWork.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly ProductService productService = new ProductService();
+        private readonly IProductService _productService;
+
+        public ProductsController(IProductService productService)
+        {
+            _productService = productService;
+        }
+
         public IActionResult Index()
         {
-            var products = productService.GetProducts();
-
-            return View(products);
+            return View(_productService.GetProducts());
         }
 
         public IActionResult Detail(int id)
