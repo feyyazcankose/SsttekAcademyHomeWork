@@ -84,14 +84,14 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
 
             book.Title = bookViewModel.Title;
             book.Author = bookViewModel.Author;
-            book.PublicationYear = bookViewModel.PublicationYear;
+            book.PublicationYear = bookViewModel.PublicationYear.Value;
             book.ISBN = bookViewModel.ISBN;
             book.Genre = bookViewModel.Genre;
             book.Publisher = bookViewModel.Publisher;
-            book.PageCount = bookViewModel.PageCount;
+            book.PageCount = bookViewModel.PageCount.Value;
             book.Language = bookViewModel.Language;
             book.Summary = bookViewModel.Summary;
-            book.AvailableCopies = bookViewModel.AvailableCopies;
+            book.AvailableCopies = bookViewModel.AvailableCopies.Value;
             book.ImageUrl = bookViewModel.ImageUrl;
 
             _bookRepository.Update(book);

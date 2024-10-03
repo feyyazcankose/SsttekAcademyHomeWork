@@ -4,8 +4,6 @@ namespace SsttekAcademyHomeWork.Models.ViewModels.Books
 {
     public class CreateBookViewModel
     {
-
-
         [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; } = default!;
 
