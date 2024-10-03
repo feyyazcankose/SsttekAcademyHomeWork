@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SsttekAcademyHomeWork.Models.Services.Books;
+using SsttekAcademyHomeWork.Models.ViewModels.Books;
 
 namespace SsttekAcademyHomeWork.Controllers
 {
@@ -16,10 +17,29 @@ namespace SsttekAcademyHomeWork.Controllers
         {
             return View(_bookService.GetBooks());
         }
-        
+
         public IActionResult Detail(int id)
         {
             return View(_bookService.GetBook(id));
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateBookViewModel createBookViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _bookService.Add(createBookViewModel);
+                return RedirectToAction("Index");
+            }
+
+            return View(createBookViewModel);
+        }
+
+
     }
 }

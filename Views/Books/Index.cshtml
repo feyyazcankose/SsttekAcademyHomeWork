@@ -2,8 +2,16 @@
     ViewData["Title"] = "Books";
 }
 
+<div class="d-flex align-items-center justify-content-between">
+
 <h1>Books</h1>
-@model List<Book>
+
+<a class="nav-link text-white btn btn-success mt-4" asp-area="" asp-controller="Books" asp-action="Create">Add</a>
+
+
+</div>
+
+@model List<BookViewModel>
 
 <div class="table-responsive rounded shadow mt-5">
     <table class="table table-striped table-hover table-bordered mb-0">

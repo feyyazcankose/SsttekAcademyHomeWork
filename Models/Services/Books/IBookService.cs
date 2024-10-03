@@ -1,12 +1,19 @@
 
 using SsttekAcademyHomeWork.Models.Repositories.Books;
+using SsttekAcademyHomeWork.Models.ViewModels.Books;
 
 namespace SsttekAcademyHomeWork.Models.Services.Books
 {
     public interface IBookService
     {
-        List<Book> GetBooks();
+        List<BookViewModel> GetBooks();
 
-        Book GetBook(int id);
+        BookViewModel GetBook(int id);
+
+        void Add(CreateBookViewModel book);
+
+        void Update(UpdateBookViewModel book);
+
+        void Delete(int id);
     }
 }
