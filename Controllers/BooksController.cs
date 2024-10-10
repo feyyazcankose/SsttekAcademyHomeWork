@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SsttekAcademyHomeWork.Models.Services.Books;
 using SsttekAcademyHomeWork.Models.ViewModels.Books;
+using System.Threading.Tasks;
 
 namespace SsttekAcademyHomeWork.Controllers
 {
@@ -13,14 +14,20 @@ namespace SsttekAcademyHomeWork.Controllers
             _bookService = bookService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_bookService.GetBooks());
+            var books = await _bookService.GetBooks();
+            return View(books);
         }
 
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            return View(_bookService.GetBook(id));
+            var book = await _bookService.GetBook(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            return View(book);
         }
 
         [HttpGet]
@@ -30,11 +37,11 @@ namespace SsttekAcademyHomeWork.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateBookViewModel createBookViewModel)
+        public async Task<IActionResult> Create(CreateBookViewModel createBookViewModel)
         {
             if (ModelState.IsValid)
             {
-                _bookService.Add(createBookViewModel);
+                await _bookService.Add(createBookViewModel);
                 return RedirectToAction("Index");
             }
 
@@ -42,41 +49,52 @@ namespace SsttekAcademyHomeWork.Controllers
         }
 
         [HttpGet]
-        public IActionResult Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
-            var boook = _bookService.GetBook(id);
+            var book = await _bookService.GetBook(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
             return View(new UpdateBookViewModel
             {
-                Id = boook.Id,
-                Title = boook.Title,
-                Author = boook.Author,
-                PublicationYear = boook.PublicationYear,
-                ISBN = boook.ISBN,
-                Genre = boook.Genre,
-                Publisher = boook.Publisher,
-                PageCount = boook.PageCount,
-                Language = boook.Language,
-                Summary = boook.Summary,
-                AvailableCopies = boook.AvailableCopies,
-                ImageUrl = boook.ImageUrl
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                PublicationYear = book.PublicationYear,
+                ISBN = book.ISBN,
+                Genre = book.Genre,
+                Publisher = book.Publisher,
+                PageCount = book.PageCount,
+                Language = book.Language,
+                Summary = book.Summary,
+                AvailableCopies = book.AvailableCopies,
+                ImageUrl = book.ImageUrl
             });
         }
 
         [HttpPost]
-        public IActionResult Update(UpdateBookViewModel bookViewModel)
+        public async Task<IActionResult> Update(UpdateBookViewModel bookViewModel)
         {
             if (ModelState.IsValid)
             {
-                _bookService.Update(bookViewModel);
+                await _bookService.Update(bookViewModel);
                 return RedirectToAction("Index");
             }
 
             return View(bookViewModel);
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _bookService.Delete(id);
+            var book = await _bookService.GetBook(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            await _bookService.Delete(id);
             return RedirectToAction("Index");
         }
     }

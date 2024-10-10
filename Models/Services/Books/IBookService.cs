@@ -6,14 +6,14 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
 {
     public interface IBookService
     {
-        List<BookViewModel> GetBooks();
+        Task<List<BookViewModel>> GetBooks();
 
-        BookViewModel GetBook(int id);
+        Task<BookViewModel> GetBook(int id);
 
-        void Add(CreateBookViewModel book);
+        Task Add(CreateBookViewModel book);
 
-        void Update(UpdateBookViewModel book);
+        Task Update(UpdateBookViewModel book);
 
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

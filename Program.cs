@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SsttekAcademyHomeWork.Data;
+using SsttekAcademyHomeWork.Models.Repositories;
 using SsttekAcademyHomeWork.Models.Repositories.Products;
 using SsttekAcademyHomeWork.Models.Services.Products;
 using SsttekAcademyHomeWork.Models.Repositories.Books;
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(x =>
 builder.Services.AddScoped<IProductRepository, ProductRepository>(); // ProductRepository için DI kaydı
 builder.Services.AddScoped<IProductService, ProductService>(); // ProductService için DI kaydı
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // UnitOfWork için DI kaydı
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // GenericRepository için DI kaydı
 builder.Services.AddScoped<IBookRepository, BookRepositoryWithPostgreSql>(); // BookRepository için DI kaydı
 builder.Services.AddScoped<IBookService, BookService>(); // BookService için DI kaydı
 

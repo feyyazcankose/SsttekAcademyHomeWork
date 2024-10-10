@@ -2,16 +2,7 @@ using SsttekAcademyHomeWork.Models.Entities.Books;
 
 namespace SsttekAcademyHomeWork.Models.Repositories.Books
 {
-    public interface IBookRepository
+    public interface IBookRepository: IGenericRepository<Book>
     {
-        List<Book> GetBooks();
-
-        Book GetBook(int id);
-
-        void Add(Book book);
-
-        void Update(Book book);
-
-        void Delete(int id);
     }
 }

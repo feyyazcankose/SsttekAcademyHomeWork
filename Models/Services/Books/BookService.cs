@@ -1,24 +1,25 @@
 using SsttekAcademyHomeWork.Data;
 using SsttekAcademyHomeWork.Models.Entities.Books;
-using SsttekAcademyHomeWork.Models.Repositories.Books;
+using SsttekAcademyHomeWork.Models.Repositories;
 using SsttekAcademyHomeWork.Models.ViewModels.Books;
 
 namespace SsttekAcademyHomeWork.Models.Services.Books
 {
-    public class BookService: IBookService
+    public class BookService : IBookService
     {
-        private readonly IBookRepository _bookRepository;
         private readonly IUnitOfWork _unitOfWork;
-        public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork)
+        private readonly IGenericRepository<Book> _bookRepository;
+
+        public BookService(IGenericRepository<Book> bookRepository,IUnitOfWork unitOfWork)
         {
             _bookRepository = bookRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public List<BookViewModel> GetBooks()
+        public async Task<List<BookViewModel>> GetBooks()
         {
             var bookViewModels = new List<BookViewModel>();
-            var books = _bookRepository.GetBooks();
+            var books = await _bookRepository.GetAllAsync();
 
             foreach (var book in books)
             {
@@ -42,10 +43,13 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
             return bookViewModels;
         }
 
-        public BookViewModel GetBook(int id)
+        public async Task<BookViewModel> GetBook(int id)
         {
-            var book = _bookRepository.GetBook(id);
-            return new BookViewModel{
+            var book = await _bookRepository.GetByIdAsync(id);
+            if (book == null) return null;
+
+            return new BookViewModel
+            {
                 Id = book.Id,
                 Title = book.Title,
                 Author = book.Author,
@@ -58,32 +62,34 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
                 Summary = book.Summary,
                 AvailableCopies = book.AvailableCopies,
                 ImageUrl = book.ImageUrl
-            } ;
+            };
         }
 
-        public void Add(CreateBookViewModel book)
+        public async Task Add(CreateBookViewModel bookViewModel)
         {
-            _bookRepository.Add(new Book
+            var book = new Book
             {
-                Title = book.Title,
-                Author = book.Author,
-                PublicationYear = book.PublicationYear.Value,
-                ISBN = book.ISBN,
-                Genre = book.Genre,
-                Publisher = book.Publisher,
-                PageCount = book.PageCount.Value,
-                Language = book.Language,
-                Summary = book.Summary,
-                AvailableCopies = book.AvailableCopies.Value,
-                ImageUrl = book.ImageUrl
-            });
-            
-            _unitOfWork.Commit();
+                Title = bookViewModel.Title,
+                Author = bookViewModel.Author,
+                PublicationYear = bookViewModel.PublicationYear.Value,
+                ISBN = bookViewModel.ISBN,
+                Genre = bookViewModel.Genre,
+                Publisher = bookViewModel.Publisher,
+                PageCount = bookViewModel.PageCount.Value,
+                Language = bookViewModel.Language,
+                Summary = bookViewModel.Summary,
+                AvailableCopies = bookViewModel.AvailableCopies.Value,
+                ImageUrl = bookViewModel.ImageUrl
+            };
+
+            await _bookRepository.AddAsync(book);
+            _unitOfWork.Commit(); // Asenkron commit
         }
 
-         public void Update(UpdateBookViewModel bookViewModel)
+        public async Task Update(UpdateBookViewModel bookViewModel)
         {
-            var book = _bookRepository.GetBook(bookViewModel.Id);
+            var book = await _bookRepository.GetByIdAsync(bookViewModel.Id);
+            if (book == null) return;
 
             book.Title = bookViewModel.Title;
             book.Author = bookViewModel.Author;
@@ -98,14 +104,16 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
             book.ImageUrl = bookViewModel.ImageUrl;
 
             _bookRepository.Update(book);
-            _unitOfWork.Commit();
+            _unitOfWork.Commit();  // Asenkron commit
         }
 
-
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _bookRepository.Delete(id);
-            _unitOfWork.Commit();
+            var book = await _bookRepository.GetByIdAsync(id);
+            if (book == null) return;
+
+            _bookRepository.Delete(book);
+            _unitOfWork.Commit();  // Asenkron commit
         }
     }
 }
