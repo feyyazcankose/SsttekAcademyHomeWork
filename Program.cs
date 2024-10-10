@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using SsttekAcademyHomeWork.Data;
 using SsttekAcademyHomeWork.Models.Repositories.Products;
 using SsttekAcademyHomeWork.Models.Services.Products;
 using SsttekAcademyHomeWork.Models.Repositories.Books;
@@ -7,6 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<AppDbContext>(x =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("PostgreSql");
+    x.UseNpgsql(connectionString);
+});
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>(); // ProductRepository için DI kaydı
 builder.Services.AddScoped<IProductService, ProductService>(); // ProductService için DI kaydı
