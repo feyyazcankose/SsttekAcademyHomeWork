@@ -1,3 +1,4 @@
+using SsttekAcademyHomeWork.Data;
 using SsttekAcademyHomeWork.Models.Entities.Books;
 using SsttekAcademyHomeWork.Models.Repositories.Books;
 using SsttekAcademyHomeWork.Models.ViewModels.Books;
@@ -7,10 +8,11 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
     public class BookService: IBookService
     {
         private readonly IBookRepository _bookRepository;
-
-        public BookService(IBookRepository bookRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork)
         {
             _bookRepository = bookRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public List<BookViewModel> GetBooks()
@@ -36,8 +38,6 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
                     ImageUrl = book.ImageUrl
                 });
             }
-
-
 
             return bookViewModels;
         }
@@ -77,6 +77,8 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
                 AvailableCopies = book.AvailableCopies.Value,
                 ImageUrl = book.ImageUrl
             });
+            
+            _unitOfWork.Commit();
         }
 
          public void Update(UpdateBookViewModel bookViewModel)
@@ -96,12 +98,14 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
             book.ImageUrl = bookViewModel.ImageUrl;
 
             _bookRepository.Update(book);
+            _unitOfWork.Commit();
         }
 
 
         public void Delete(int id)
         {
             _bookRepository.Delete(id);
+            _unitOfWork.Commit();
         }
     }
 }
