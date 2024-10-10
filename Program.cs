@@ -10,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+// Add IHttpContextAccessor to the DI container
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
     var connectionString = builder.Configuration.GetConnectionString("PostgreSql");

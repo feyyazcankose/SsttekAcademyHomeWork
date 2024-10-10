@@ -13,6 +13,13 @@ namespace SsttekAcademyHomeWork.Controllers
         {
             _bookService = bookService;
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> Search(string title, string author, string genre, int? publicationYear, string isbn, string publisher)
+        {
+            var books = await _bookService.GetFilteredBooksAsync(title, author, genre, publicationYear, isbn, publisher);
+            return View(books);
+        }
 
         public async Task<IActionResult> Index()
         {

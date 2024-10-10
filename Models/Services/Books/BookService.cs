@@ -1,6 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using SsttekAcademyHomeWork.Data;
 using SsttekAcademyHomeWork.Models.Entities.Books;
-using SsttekAcademyHomeWork.Models.Repositories;
+using SsttekAcademyHomeWork.Models.Repositories.Books;
 using SsttekAcademyHomeWork.Models.ViewModels.Books;
 
 namespace SsttekAcademyHomeWork.Models.Services.Books
@@ -8,9 +9,9 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
     public class BookService : IBookService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGenericRepository<Book> _bookRepository;
+        private readonly IBookRepository _bookRepository;
 
-        public BookService(IGenericRepository<Book> bookRepository,IUnitOfWork unitOfWork)
+        public BookService(IBookRepository bookRepository,IUnitOfWork unitOfWork)
         {
             _bookRepository = bookRepository;
             _unitOfWork = unitOfWork;
@@ -114,6 +115,35 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
 
             _bookRepository.Delete(book);
             _unitOfWork.Commit();  // Asenkron commit
+        }
+        
+        public async Task<List<BookViewModel>> GetFilteredBooksAsync(string title, string author, string genre,
+            int? publicationYear, string isbn, string publisher)
+        {
+            var query = _bookRepository.GetFilteredBooks(title, author, genre, publicationYear, isbn, publisher);
+            var books= await query.ToListAsync(); // Sorgu çalıştırılır ve sonuç listelenir
+            var bookViewModels = new List<BookViewModel>();
+            
+            foreach (var book in books)
+            {
+                bookViewModels.Add(new BookViewModel
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    Author = book.Author,
+                    PublicationYear = book.PublicationYear,
+                    ISBN = book.ISBN,
+                    Genre = book.Genre,
+                    Publisher = book.Publisher,
+                    PageCount = book.PageCount,
+                    Language = book.Language,
+                    Summary = book.Summary,
+                    AvailableCopies = book.AvailableCopies,
+                    ImageUrl = book.ImageUrl
+                });
+            }
+
+            return bookViewModels;
         }
     }
 }

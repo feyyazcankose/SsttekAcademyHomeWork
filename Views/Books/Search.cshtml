@@ -1,0 +1,70 @@
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Books";
+}
+
+<form method="get" action="/Books/Search" class="row g-3">
+    <div class="col-md-4">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="@HttpContextAccessor.HttpContext.Request.Query["title"]" />
+    </div>
+    <div class="col-md-4">
+        <label for="author" class="form-label">Author</label>
+        <input type="text" class="form-control" id="author" name="author" placeholder="Author" value="@HttpContextAccessor.HttpContext.Request.Query["author"]" />
+    </div>
+    <div class="col-md-4">
+        <label for="genre" class="form-label">Genre</label>
+        <input type="text" class="form-control" id="genre" name="genre" placeholder="Genre" value="@HttpContextAccessor.HttpContext.Request.Query["genre"]" />
+    </div>
+    <div class="col-md-4">
+        <label for="publicationYear" class="form-label">Publication Year</label>
+        <input type="number" class="form-control" id="publicationYear" name="publicationYear" placeholder="Publication Year" value="@HttpContextAccessor.HttpContext.Request.Query["publicationYear"]" />
+    </div>
+    <div class="col-md-4">
+        <label for="isbn" class="form-label">ISBN</label>
+        <input type="text" class="form-control" id="isbn" name="isbn" placeholder="ISBN" value="@HttpContextAccessor.HttpContext.Request.Query["isbn"]" />
+    </div>
+    <div class="col-md-4">
+        <label for="publisher" class="form-label">Publisher</label>
+        <input type="text" class="form-control" id="publisher" name="publisher" placeholder="Publisher" value="@HttpContextAccessor.HttpContext.Request.Query["publisher"]" />
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="/Books/Search" class="btn btn-secondary">Clear</a>
+    </div>
+</form>
+
+
+@model List<BookViewModel>
+
+<div class="table-responsive rounded shadow mt-5">
+    <table class="table table-striped table-hover table-bordered mb-0">
+        <thead class="bg-light">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Publication Year</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Author</td>
+                <td>@item.ISBN</td>
+                <td>@item.PublicationYear</td>
+                <td>
+                    <a class="btn btn-sm btn-success me-2" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
+                    <a class="btn btn-sm btn-primary" asp-action="Update" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+
