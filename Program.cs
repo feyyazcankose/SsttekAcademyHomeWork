@@ -19,7 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(x =>
 builder.Services.AddScoped<IProductRepository, ProductRepository>(); // ProductRepository için DI kaydı
 builder.Services.AddScoped<IProductService, ProductService>(); // ProductService için DI kaydı
 
-builder.Services.AddScoped<IBookRepository, BookRepository>(); // BookRepository için DI kaydı
+builder.Services.AddScoped<IBookRepository, BookRepositoryWithPostgreSql>(); // BookRepository için DI kaydı
 builder.Services.AddScoped<IBookService, BookService>(); // BookService için DI kaydı
 
 var app = builder.Build();
