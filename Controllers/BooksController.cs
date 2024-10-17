@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SsttekAcademyHomeWork.Models.Services.Books;
 using SsttekAcademyHomeWork.Models.ViewModels.Books;
+using SsttekAcademyHomeWork.Models.Commons; // ServiceResult için
 using System.Threading.Tasks;
 
 namespace SsttekAcademyHomeWork.Controllers
@@ -13,28 +14,44 @@ namespace SsttekAcademyHomeWork.Controllers
         {
             _bookService = bookService;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> Search(string title, string author, string genre, int? publicationYear, string isbn, string publisher)
         {
-            var books = await _bookService.GetFilteredBooksAsync(title, author, genre, publicationYear, isbn, publisher);
-            return View(books);
+            var result = await _bookService.GetFilteredBooksAsync(title, author, genre, publicationYear, isbn, publisher);
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.Message);
+                return View("Error");
+            }
+
+            return View(result.Data);
         }
 
         public async Task<IActionResult> Index()
         {
-            var books = await _bookService.GetBooks();
-            return View(books);
+            var result = await _bookService.GetBooks();
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError("", result.Message);
+                return View("Error");
+            }
+
+            return View(result.Data);
         }
 
         public async Task<IActionResult> Detail(int id)
         {
-            var book = await _bookService.GetBook(id);
-            if (book == null)
+            var result = await _bookService.GetBook(id);
+
+            if (!result.Success)
             {
                 return NotFound();
             }
-            return View(book);
+
+            return View(result.Data);
         }
 
         [HttpGet]
@@ -48,7 +65,14 @@ namespace SsttekAcademyHomeWork.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _bookService.Add(createBookViewModel);
+                var result = await _bookService.Add(createBookViewModel);
+
+                if (!result.Success)
+                {
+                    ModelState.AddModelError("", result.Message);
+                    return View(createBookViewModel);
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -58,11 +82,14 @@ namespace SsttekAcademyHomeWork.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int id)
         {
-            var book = await _bookService.GetBook(id);
-            if (book == null)
+            var result = await _bookService.GetBook(id);
+
+            if (!result.Success)
             {
                 return NotFound();
             }
+
+            var book = result.Data;
 
             return View(new UpdateBookViewModel
             {
@@ -86,7 +113,14 @@ namespace SsttekAcademyHomeWork.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _bookService.Update(bookViewModel);
+                var result = await _bookService.Update(bookViewModel);
+
+                if (!result.Success)
+                {
+                    ModelState.AddModelError("", result.Message);
+                    return View(bookViewModel);
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -95,13 +129,21 @@ namespace SsttekAcademyHomeWork.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var book = await _bookService.GetBook(id);
-            if (book == null)
+            var result = await _bookService.GetBook(id);
+
+            if (!result.Success)
             {
                 return NotFound();
             }
 
-            await _bookService.Delete(id);
+            var deleteResult = await _bookService.Delete(id);
+
+            if (!deleteResult.Success)
+            {
+                ModelState.AddModelError("", deleteResult.Message);
+                return View("Error");
+            }
+
             return RedirectToAction("Index");
         }
     }

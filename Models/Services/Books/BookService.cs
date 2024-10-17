@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SsttekAcademyHomeWork.Data;
+using SsttekAcademyHomeWork.Models.Commons;
 using SsttekAcademyHomeWork.Models.Entities.Books;
 using SsttekAcademyHomeWork.Models.Repositories.Books;
 using SsttekAcademyHomeWork.Models.ViewModels.Books;
@@ -11,45 +12,41 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBookRepository _bookRepository;
 
-        public BookService(IBookRepository bookRepository,IUnitOfWork unitOfWork)
+        public BookService(IBookRepository bookRepository, IUnitOfWork unitOfWork)
         {
             _bookRepository = bookRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<BookViewModel>> GetBooks()
+        public async Task<ServiceResult<List<BookViewModel>>> GetBooks()
         {
-            var bookViewModels = new List<BookViewModel>();
             var books = await _bookRepository.GetAllAsync();
-
-            foreach (var book in books)
+            var bookViewModels = books.Select(book => new BookViewModel
             {
-                bookViewModels.Add(new BookViewModel
-                {
-                    Id = book.Id,
-                    Title = book.Title,
-                    Author = book.Author,
-                    PublicationYear = book.PublicationYear,
-                    ISBN = book.ISBN,
-                    Genre = book.Genre,
-                    Publisher = book.Publisher,
-                    PageCount = book.PageCount,
-                    Language = book.Language,
-                    Summary = book.Summary,
-                    AvailableCopies = book.AvailableCopies,
-                    ImageUrl = book.ImageUrl
-                });
-            }
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                PublicationYear = book.PublicationYear,
+                ISBN = book.ISBN,
+                Genre = book.Genre,
+                Publisher = book.Publisher,
+                PageCount = book.PageCount,
+                Language = book.Language,
+                Summary = book.Summary,
+                AvailableCopies = book.AvailableCopies,
+                ImageUrl = book.ImageUrl
+            }).ToList();
 
-            return bookViewModels;
+            return ServiceResult<List<BookViewModel>>.SuccessResult(bookViewModels);
         }
 
-        public async Task<BookViewModel> GetBook(int id)
+        public async Task<ServiceResult<BookViewModel>> GetBook(int id)
         {
             var book = await _bookRepository.GetByIdAsync(id);
-            if (book == null) return null;
+            if (book == null)
+                return ServiceResult<BookViewModel>.ErrorResult("Kitap bulunamadı.");
 
-            return new BookViewModel
+            var bookViewModel = new BookViewModel
             {
                 Id = book.Id,
                 Title = book.Title,
@@ -64,9 +61,11 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
                 AvailableCopies = book.AvailableCopies,
                 ImageUrl = book.ImageUrl
             };
+
+            return ServiceResult<BookViewModel>.SuccessResult(bookViewModel);
         }
 
-        public async Task Add(CreateBookViewModel bookViewModel)
+        public async Task<ServiceResult> Add(CreateBookViewModel bookViewModel)
         {
             var book = new Book
             {
@@ -84,13 +83,16 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
             };
 
             await _bookRepository.AddAsync(book);
-            _unitOfWork.Commit(); // Asenkron commit
+            _unitOfWork.Commit();
+
+            return ServiceResult<object>.SuccessResult(null, "Kitap başarıyla eklendi.");
         }
 
-        public async Task Update(UpdateBookViewModel bookViewModel)
+        public async Task<ServiceResult> Update(UpdateBookViewModel bookViewModel)
         {
             var book = await _bookRepository.GetByIdAsync(bookViewModel.Id);
-            if (book == null) return;
+            if (book == null)
+                return ServiceResult<object>.ErrorResult("Kitap bulunamadı.");
 
             book.Title = bookViewModel.Title;
             book.Author = bookViewModel.Author;
@@ -105,45 +107,46 @@ namespace SsttekAcademyHomeWork.Models.Services.Books
             book.ImageUrl = bookViewModel.ImageUrl;
 
             _bookRepository.Update(book);
-            _unitOfWork.Commit();  // Asenkron commit
+            _unitOfWork.Commit();
+
+            return ServiceResult<object>.SuccessResult(null, "Kitap başarıyla güncellendi.");
         }
 
-        public async Task Delete(int id)
+        public async Task<ServiceResult> Delete(int id)
         {
             var book = await _bookRepository.GetByIdAsync(id);
-            if (book == null) return;
+            if (book == null)
+                return ServiceResult<object>.ErrorResult("Kitap bulunamadı.");
 
             _bookRepository.Delete(book);
-            _unitOfWork.Commit();  // Asenkron commit
+            _unitOfWork.Commit();
+
+            return ServiceResult<object>.SuccessResult(null, "Kitap başarıyla silindi.");
         }
-        
-        public async Task<List<BookViewModel>> GetFilteredBooksAsync(string title, string author, string genre,
-            int? publicationYear, string isbn, string publisher)
+
+        public async Task<ServiceResult<List<BookViewModel>>> GetFilteredBooksAsync(
+            string title, string author, string genre, int? publicationYear, string isbn, string publisher)
         {
             var query = _bookRepository.GetFilteredBooks(title, author, genre, publicationYear, isbn, publisher);
-            var books= await query.ToListAsync(); // Sorgu çalıştırılır ve sonuç listelenir
-            var bookViewModels = new List<BookViewModel>();
-            
-            foreach (var book in books)
-            {
-                bookViewModels.Add(new BookViewModel
-                {
-                    Id = book.Id,
-                    Title = book.Title,
-                    Author = book.Author,
-                    PublicationYear = book.PublicationYear,
-                    ISBN = book.ISBN,
-                    Genre = book.Genre,
-                    Publisher = book.Publisher,
-                    PageCount = book.PageCount,
-                    Language = book.Language,
-                    Summary = book.Summary,
-                    AvailableCopies = book.AvailableCopies,
-                    ImageUrl = book.ImageUrl
-                });
-            }
+            var books = await query.ToListAsync();
 
-            return bookViewModels;
+            var bookViewModels = books.Select(book => new BookViewModel
+            {
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                PublicationYear = book.PublicationYear,
+                ISBN = book.ISBN,
+                Genre = book.Genre,
+                Publisher = book.Publisher,
+                PageCount = book.PageCount,
+                Language = book.Language,
+                Summary = book.Summary,
+                AvailableCopies = book.AvailableCopies,
+                ImageUrl = book.ImageUrl
+            }).ToList();
+
+            return ServiceResult<List<BookViewModel>>.SuccessResult(bookViewModels);
         }
     }
 }

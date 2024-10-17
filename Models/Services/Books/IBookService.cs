@@ -1,22 +1,22 @@
-
 using SsttekAcademyHomeWork.Models.Entities.Books;
-using SsttekAcademyHomeWork.Models.Repositories.Books;
 using SsttekAcademyHomeWork.Models.ViewModels.Books;
+using SsttekAcademyHomeWork.Models.Commons;
 
 namespace SsttekAcademyHomeWork.Models.Services.Books
 {
     public interface IBookService
     {
-        Task<List<BookViewModel>> GetFilteredBooksAsync(string title, string author, string genre, int? publicationYear,
-            string isbn, string publisher);
-        Task<List<BookViewModel>> GetBooks();
+        Task<ServiceResult<List<BookViewModel>>> GetFilteredBooksAsync(
+            string title, string author, string genre, int? publicationYear, string isbn, string publisher);
 
-        Task<BookViewModel> GetBook(int id);
+        Task<ServiceResult<List<BookViewModel>>> GetBooks();
 
-        Task Add(CreateBookViewModel book);
+        Task<ServiceResult<BookViewModel>> GetBook(int id);
 
-        Task Update(UpdateBookViewModel book);
+        Task<ServiceResult> Add(CreateBookViewModel book);
 
-        Task Delete(int id);
+        Task<ServiceResult> Update(UpdateBookViewModel book);
+
+        Task<ServiceResult> Delete(int id);
     }
 }
