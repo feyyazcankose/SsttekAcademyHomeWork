@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SsttekAcademyHomeWork.Data;
 using SsttekAcademyHomeWork.Models.Repositories;
@@ -18,6 +19,10 @@ builder.Services.AddDbContext<AppDbContext>(x =>
     x.UseNpgsql(connectionString);
 });
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddScoped<IProductRepository, ProductRepository>(); // ProductRepository için DI kaydı
 builder.Services.AddScoped<IProductService, ProductService>(); // ProductService için DI kaydı
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // UnitOfWork için DI kaydı
@@ -26,6 +31,9 @@ builder.Services.AddScoped<IBookRepository, BookRepositoryWithPostgreSql>(); // 
 builder.Services.AddScoped<IBookService, BookService>(); // BookService için DI kaydı
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization(); 
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

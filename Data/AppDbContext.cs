@@ -1,57 +1,56 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SsttekAcademyHomeWork.Models.Entities.Books;
 
-namespace SsttekAcademyHomeWork.Data;
-
-public class AppDbContext : DbContext
+namespace SsttekAcademyHomeWork.Data
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options):base(options) { } 
-    
-    public DbSet<Book> Books { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public class AppDbContext : IdentityDbContext
     {
-        // Fluent API approach
+        public AppDbContext(DbContextOptions<AppDbContext> options) 
+            : base(options) 
+        { }
 
-        // Primary Key
-        modelBuilder.Entity<Book>().HasKey(b => b.Id);
+        public DbSet<Book> Books { get; set; }
 
-        // Property Configurations
-        modelBuilder.Entity<Book>()
-            .Property(b => b.Title)
-            .IsRequired()
-            .HasMaxLength(250); // Kitap başlığı için maksimum uzunluk
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Identity tablolarını da eklemek için base çağrısı yapılır.
+            base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Book>()
-            .Property(b => b.Author)
-            .IsRequired()
-            .HasMaxLength(50); // Yazar adı için maksimum uzunluk
+            // Book varlık yapılandırmaları
+            modelBuilder.Entity<Book>().HasKey(b => b.Id);
 
-        modelBuilder.Entity<Book>()
-            .Property(b => b.PublicationYear)
-            .IsRequired(); // Yayın yılı zorunlu
+            modelBuilder.Entity<Book>()
+                .Property(b => b.Title)
+                .IsRequired()
+                .HasMaxLength(250);
 
-        modelBuilder.Entity<Book>()
-            .Property(b => b.ISBN)
-            .IsRequired()
-            .HasMaxLength(13); // ISBN numarası için maksimum uzunluk
+            modelBuilder.Entity<Book>()
+                .Property(b => b.Author)
+                .IsRequired()
+                .HasMaxLength(50);
 
-        modelBuilder.Entity<Book>()
-            .Property(b => b.Genre)
-            .IsRequired()
-            .HasMaxLength(250); // Tür (Roman, Bilim Kurgu vb.) için maksimum uzunluk
+            modelBuilder.Entity<Book>()
+                .Property(b => b.PublicationYear)
+                .IsRequired();
 
-        modelBuilder.Entity<Book>()
-            .Property(b => b.Publisher)
-            .HasMaxLength(250); // Yayınevi için maksimum uzunluk
+            modelBuilder.Entity<Book>()
+                .Property(b => b.ISBN)
+                .IsRequired()
+                .HasMaxLength(13);
 
-        modelBuilder.Entity<Book>()
-            .Property(b => b.PageCount)
-            .IsRequired(); // Sayfa sayısı zorunlu
+            modelBuilder.Entity<Book>()
+                .Property(b => b.Genre)
+                .IsRequired()
+                .HasMaxLength(250);
 
-        // Tablo adı değiştirmek istersen (isteğe bağlı)
-        // modelBuilder.Entity<Book>().ToTable("BookTable");
+            modelBuilder.Entity<Book>()
+                .Property(b => b.Publisher)
+                .HasMaxLength(250);
 
-        base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Book>()
+                .Property(b => b.PageCount)
+                .IsRequired();
+        }
     }
 }
