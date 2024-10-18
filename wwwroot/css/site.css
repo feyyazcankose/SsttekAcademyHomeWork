@@ -17,6 +17,10 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+.object-fit-cover{
+  object-fit: cover !important;
+}
+
+.h-100vh{
+  height: 100vh !important;
 }

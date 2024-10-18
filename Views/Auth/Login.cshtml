@@ -1,0 +1,41 @@
+@model SsttekAcademyHomeWork.Models.ViewModels.Auth.LoginViewModel
+
+<div class="container h-100vh">
+    <div class="row justify-content-center align-items-center h-100vh">
+        <!-- Image Section -->
+        <div class="col-md-6 d-none d-md-block p-0 h-100vh">
+            <img src="/images/login-image.jpg"
+                 alt="Login"
+                 class="img-fluid h-100 w-100 object-fit-cover" />
+        </div>
+
+        <!-- Login Form Section -->
+        <div class="col-md-6 p-5">
+            <h2 class="text-center mb-4">Login</h2>
+            <p class="text-center">Don't have an account?
+                <a asp-action="Register" asp-controller="Auth">Register here</a>.
+            </p>
+
+            <form asp-action="Login" method="post" class="needs-validation d-flex flex-column gap-3" novalidate>
+                <div class="form-group">
+                    <label for="Username" class="mb-1">User Name</label>
+                    <input asp-for="Username" type="text" class="form-control" id="Username" required />
+                    <div class="invalid-feedback">Please enter a valid username.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="Password" class="mb-1">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" id="Password" required />
+                    <div class="invalid-feedback">Password is required.</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                <div class="alert alert-danger mt-3">@error.ErrorMessage</div>
+                }
+            </form>
+        </div>
+    </div>
+</div>

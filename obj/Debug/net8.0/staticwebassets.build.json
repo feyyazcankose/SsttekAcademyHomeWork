@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+Yl1fQ8R4PuUek9GT6qVASBygkACUNzK2R63T9IRZTU=",
+  "Hash": "aQ7MZ92qZMkSuehOQ7ct+JsNJMtUFuo73lF1YA1v0a4=",
   "Source": "SsttekAcademyHomeWork",
   "BasePath": "_content/SsttekAcademyHomeWork",
   "Mode": "Default",
@@ -1233,6 +1233,25 @@
       "OriginalItemSpec": "wwwroot/favicon.ico"
     },
     {
+      "Identity": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/images/login-image.jpg",
+      "SourceId": "SsttekAcademyHomeWork",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/",
+      "BasePath": "_content/SsttekAcademyHomeWork",
+      "RelativePath": "images/login-image.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/login-image.jpg"
+    },
+    {
       "Identity": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/images/logo.png",
       "SourceId": "SsttekAcademyHomeWork",
       "SourceType": "Discovered",
@@ -1250,6 +1269,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/logo.png"
+    },
+    {
+      "Identity": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/images/register-image.jpg",
+      "SourceId": "SsttekAcademyHomeWork",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/",
+      "BasePath": "_content/SsttekAcademyHomeWork",
+      "RelativePath": "images/register-image.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/register-image.jpg"
     },
     {
       "Identity": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/js/site.js",

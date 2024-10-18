@@ -3,9 +3,11 @@ using SsttekAcademyHomeWork.Models.Services.Books;
 using SsttekAcademyHomeWork.Models.ViewModels.Books;
 using SsttekAcademyHomeWork.Models.Commons; // ServiceResult için
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SsttekAcademyHomeWork.Controllers
 {
+    [Authorize]
     public class BooksController : Controller
     {
         private readonly IBookService _bookService;

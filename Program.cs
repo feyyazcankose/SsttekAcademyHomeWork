@@ -19,9 +19,27 @@ builder.Services.AddDbContext<AppDbContext>(x =>
     x.UseNpgsql(connectionString);
 });
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+// Identity servislerini ekleme ve kimlik doğrulama yollarını özelleştirme
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = true;      // Şifre için rakam gereksinimi
+        options.Password.RequireLowercase = true;  // Küçük harf gereksinimi
+        options.Password.RequireUppercase = true;  // Büyük harf gereksinimi
+        options.Password.RequireNonAlphanumeric = false;  // Özel karakter gereksinimi yok
+        options.Password.RequiredLength = 6;       // Minimum şifre uzunluğu
+    })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
+// Kimlik doğrulama için cookie yapılandırması
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Auth/Login"; // Giriş sayfası
+    options.AccessDeniedPath = "/Auth/AccessDenied"; // Yetkisiz erişim
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Oturum süresi
+    options.SlidingExpiration = true; // Süre uzatılması
+});
+
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>(); // ProductRepository için DI kaydı
 builder.Services.AddScoped<IProductService, ProductService>(); // ProductService için DI kaydı
@@ -31,6 +49,9 @@ builder.Services.AddScoped<IBookRepository, BookRepositoryWithPostgreSql>(); // 
 builder.Services.AddScoped<IBookService, BookService>(); // BookService için DI kaydı
 
 var app = builder.Build();
+var scope = app.Services.CreateScope();
+
+AppDbInitialize.InitializeRoles(scope.ServiceProvider);
 
 app.UseAuthentication();
 app.UseAuthorization(); 

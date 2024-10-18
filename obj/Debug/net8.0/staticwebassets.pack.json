@@ -13,8 +13,16 @@
       "PackagePath": "staticwebassets/favicon.ico"
     },
     {
+      "Id": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/images/login-image.jpg",
+      "PackagePath": "staticwebassets/images/login-image.jpg"
+    },
+    {
       "Id": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/images/logo.png",
       "PackagePath": "staticwebassets/images/logo.png"
+    },
+    {
+      "Id": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/images/register-image.jpg",
+      "PackagePath": "staticwebassets/images/register-image.jpg"
     },
     {
       "Id": "/Users/feyyazcankose/workspace/ssttek-academy/SsttekAcademyHomeWork/wwwroot/js/site.js",
