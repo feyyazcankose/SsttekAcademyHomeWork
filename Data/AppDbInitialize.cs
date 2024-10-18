@@ -22,8 +22,8 @@ public class AppDbInitialize
         var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
         string adminEmail = "dev@ssttek.com";
-        string adminUserName = "dev@ssttek.com";
-        string adminPassword = "Example123";
+        string adminUserName = "ssttek";
+        string adminPassword = "Ssttek123";
 
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
         if (adminUser == null)
