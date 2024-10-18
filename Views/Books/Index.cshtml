@@ -6,9 +6,11 @@
 
 <h1>Books</h1>
 
-<a class="nav-link text-white btn btn-success mt-4" asp-area="" asp-controller="Books" asp-action="Create">New Book Add</a>
-
-
+    @if (User.IsInRole("Admin"))
+    {
+        <a class="nav-link text-white btn btn-success mt-4" asp-area="" asp-controller="Books" asp-action="Create">New Book Add</a>
+    }
+    <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Search">Books Search</a>
 </div>
 
 @model List<BookViewModel>
@@ -34,8 +36,16 @@
                     <td>@item.PublicationYear</td>
                     <td>
                         <a class="btn btn-sm btn-success me-2" asp-action="Detail" asp-route-id="@item.Id">Detail</a>
-                        <a class="btn btn-sm btn-primary" asp-action="Update" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a class="btn btn-sm btn-primary me-2"
+                               asp-action="Update"
+                               asp-route-id="@item.Id">Edit</a>
+
+                            <a class="btn btn-sm btn-danger"
+                               asp-action="Delete"
+                               asp-route-id="@item.Id">Delete</a>
+                        }
                     </td>
                 </tr>
             }

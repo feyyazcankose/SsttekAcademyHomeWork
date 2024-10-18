@@ -5,6 +5,8 @@ using SsttekAcademyHomeWork.Models.Repositories;
 using SsttekAcademyHomeWork.Models.Repositories.Products;
 using SsttekAcademyHomeWork.Models.Services.Products;
 using SsttekAcademyHomeWork.Models.Repositories.Books;
+using SsttekAcademyHomeWork.Models.Repositories.Users;
+using SsttekAcademyHomeWork.Models.Services.Accounts;
 using SsttekAcademyHomeWork.Models.Services.Books;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,11 +49,15 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); // UnitOfWork için DI ka
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>)); // GenericRepository için DI kaydı
 builder.Services.AddScoped<IBookRepository, BookRepositoryWithPostgreSql>(); // BookRepository için DI kaydı
 builder.Services.AddScoped<IBookService, BookService>(); // BookService için DI kaydı
+builder.Services.AddScoped<IAccountService, AccountService>(); // AccountService için DI kaydı
+builder.Services.AddScoped<IUserRepository, UserRepository>(); // UserRepository için DI kaydı
 
 var app = builder.Build();
 var scope = app.Services.CreateScope();
 
-AppDbInitialize.InitializeRoles(scope.ServiceProvider);
+await AppDbInitialize.InitializeRoles(scope.ServiceProvider);
+await AppDbInitialize.InitializeUser(scope.ServiceProvider);
+
 
 app.UseAuthentication();
 app.UseAuthorization(); 

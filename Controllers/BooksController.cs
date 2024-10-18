@@ -57,12 +57,14 @@ namespace SsttekAcademyHomeWork.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CreateBookViewModel createBookViewModel)
         {
             if (ModelState.IsValid)
@@ -82,6 +84,7 @@ namespace SsttekAcademyHomeWork.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id)
         {
             var result = await _bookService.GetBook(id);
@@ -111,6 +114,7 @@ namespace SsttekAcademyHomeWork.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(UpdateBookViewModel bookViewModel)
         {
             if (ModelState.IsValid)
@@ -129,6 +133,7 @@ namespace SsttekAcademyHomeWork.Controllers
             return View(bookViewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _bookService.GetBook(id);
